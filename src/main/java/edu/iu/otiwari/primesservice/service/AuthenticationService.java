@@ -51,21 +51,4 @@ public class AuthenticationService implements
             throw new RuntimeException(e);
         }
     }
-
-    @RestController
-    public class AuthenticationController{
-        private final IAuthenticationService authenticationService;
-        public AuthenticationController(IAuthenticationService authenticationService){
-            this.authenticationService = authenticationService;
-        }
-
-        @PostMapping("/register")
-        public boolean register(@RequestBody Customer customer){
-            try{
-                return authenticationService.register(customer);
-            } catch (IOException e){
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
