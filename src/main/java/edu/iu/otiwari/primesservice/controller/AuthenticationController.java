@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin("http://127.0.0.1:5500")
 public class AuthenticationController {
 
     private final IAuthenticationService authenticationService;
 
     private final AuthenticationManager authenticationManager;
 
-    private final TokenService tokenService;
+    private TokenService tokenService;
 
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     IAuthenticationService authenticationService,
@@ -32,7 +33,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
-    public boolean register(@RequestBody Customer customer){
+    public Customer register(@RequestBody Customer customer){
         try {
             return authenticationService.register(customer);
         } catch (IOException e){
