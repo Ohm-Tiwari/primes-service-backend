@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+
 @Service
-public class AuthenticationService implements
-        IAuthenticationService, UserDetailsService {
+public class AuthenticationService implements IAuthenticationService, UserDetailsService {
     AuthenticationDBRepository authenticationRepository;
 
     public AuthenticationService(AuthenticationDBRepository authenticationRepository){
@@ -34,20 +34,17 @@ public class AuthenticationService implements
 
     @Override
     public boolean login(String username, String password) throws IOException {
-        Customer customer = authenticationRepository.findByUsername(username);
-        if (customer != null){
-            BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-            if(bc.matches(password, customer.getPassword())){
-                return true;
-            }
-            return false;
-        }
+//        Customer customer = authenticationRepository.findByUsername(username);
+//        if(customer != null){
+//            BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+//            return bc.matches(password, customer.getPassword());
+//        }
         return false;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        try {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try{
             Customer customer = authenticationRepository.findByUsername(username);
             if(customer == null){
                 throw new UsernameNotFoundException("");
@@ -60,4 +57,5 @@ public class AuthenticationService implements
             throw new RuntimeException(e);
         }
     }
+
 }
