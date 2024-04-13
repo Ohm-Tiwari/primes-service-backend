@@ -1,10 +1,10 @@
 package edu.iu.otiwari.primesservice.rabbitmq;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.Queue;
 
 @Component
 public class MQSender {
@@ -16,11 +16,13 @@ public class MQSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(int n, boolean isPrime){
+    public void sendMessage(String username, int n, boolean isPrime) {
         String message =
                 MessageFormat
-                        .format("n: {0}, isprime: {1}"
-                                , n, isPrime);
+                        .format(
+                                "customer:{0}, n: {1}, isPrime: {2}"
+                                , username, String.valueOf(n), isPrime);
+        message = "{" + message + "}";
         rabbitTemplate.convertAndSend("primes", message);
     }
 }
